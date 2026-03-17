@@ -61,10 +61,44 @@ public class Test2 {
 
        colorsDropdown.selectOption(new String[]{"red","blue"});
 
+
+
+      //dropdown
+
+      Locator datePickerBox =  page.locator("input.hasDatepicker#datepicker");
+      datePickerBox.click();
+
+      String ExpectedMonth = "August";
+      String ExpectedYear = "2028";
+      String ExpectedDate = "27";
+
+      while(true)
+      {
+        String CurrentMonth =  page.locator(".ui-datepicker-month").textContent().trim();
+        String CurrentYear = page.locator(".ui-datepicker-year").textContent().trim();
+        if(ExpectedMonth.equals(CurrentMonth) && ExpectedYear.equals(CurrentYear))
+        {
+           break;
+        }
+        page.locator(".ui-icon:has-text('Next')").click();
+      }
+
+     Locator dates =  page.locator("//a[@class='ui-state-default']");
+
+      for(int i = 0;i<dates.count();i++)
+      {
+        String days = dates.nth(i).textContent().trim();
+
+         if(days.equals(ExpectedDate))
+         {
+            dates.nth(i).click();
+            break;
+         }
+      }
+
+      assertThat(datePickerBox).hasValue("08/27/2028");
+
        page.waitForTimeout(3000);
-
-
-
 
 
 
